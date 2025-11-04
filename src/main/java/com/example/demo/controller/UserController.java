@@ -38,11 +38,15 @@ public class UserController {
     public String deleteStudent(@PathVariable("id") Long id){
         return studentService.deleteStudent(id);
     }
-    
+
     @GetMapping(value = "/searchContent",produces = "application/json")
     public String getSearchContent(){
         return aemService.getAemSearchService();
     }
 
+    @GetMapping(value = "/hello")
+    public String getValue(){
+        return "Hi Fahad";
+    }
 
 }
