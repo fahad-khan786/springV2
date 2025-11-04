@@ -22,17 +22,17 @@ public class WebConfig {
         };
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // Disable CSRF (useful for APIs)
-        http.csrf().disable();
-
-        // Authorize requests
-        http.authorizeRequests()
-                .antMatchers("/api/**").permitAll() // allow all requests to /api/**
-                .anyRequest().authenticated();      // all other requests require authentication
-
-        return http.build();
-    }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        // Disable CSRF (useful for APIs)
+//        http.csrf().disable();
+//
+//        // Authorize requests
+//        http.authorizeRequests()
+//                .antMatchers("/api/**").permitAll() // allow all requests to /api/**
+//                .anyRequest().authenticated();      // all other requests require authentication
+//
+//        return http.build();
+//    }
 }
 
