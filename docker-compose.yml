@@ -2,29 +2,31 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0
-    container_name: mysql_db
+    image: mysql:8
+    container_name: db
+    restart: always
     environment:
-      MYSQL_DATABASE: University
       MYSQL_ROOT_PASSWORD: Idea@2025
+      MYSQL_DATABASE: University
     ports:
-      - "3307:3306"
-    volumes:
-      - db_data:/var/lib/mysql
+      - "3306:3306"
+    networks:
+      - springnet
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: fahaddock/myapp:latest
     container_name: springboot_myapp
-    ports:
-      - "9992:9988"
+    restart: always
     depends_on:
       - db
+    ports:
+      - "9988:9988"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/University
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Idea@2025
+    networks:
+      - springnet
 
-volumes:
-  db_data:
+networks:
+  springnet:
