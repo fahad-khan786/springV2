@@ -49,13 +49,23 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat '''
-                    echo "🔁 Full clean rebuild of Docker environment..."
-                    docker-compose down -v --remove-orphans
-                    docker system prune -af --volumes
+                    echo " Cleaning up old Docker containers and networks..."
+
+                    REM Stop and remove existing containers safely
+                    docker ps -a -q --filter "name=springboot_myapp" | findstr . && docker rm -f springboot_myapp || echo "springboot_myapp not found"
+                    docker ps -a -q --filter "name=mysql_db" | findstr . && docker rm -f mysql_db || echo "mysql_db not found"
+
+                    REM Remove any dangling resources from previous runs
+                    docker-compose down -v --remove-orphans || echo "No old compose setup found"
+
+                    echo " Starting new deployment..."
                     docker-compose up -d --build
+
+                    echo " Deployment complete!"
                 '''
             }
         }
+
     }
 
     post {
