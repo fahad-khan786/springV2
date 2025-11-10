@@ -14,28 +14,15 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub') {
-            environment {
-                DOCKER_CONFIG = 'C:\\Users\\fahad_khan\\.docker'
-            }
-            steps {
-                script {
-                    withDockerRegistry([ credentialsId: 'dockerhub-creds', url: 'https://index.docker.io/v1/' ]) {
-                        bat 'docker push fahaddock/myapp:latest'
-                    }
-                }
-            }
-        }
-
         stage('Build JAR') {
             steps {
-                bat '.\\mvnw clean package -DskipTests'                    //'./mvnw clean package -DskipTests'
+                bat '.\\mvnw clean package -DskipTests'
             }
             post {
-                    always {
-                      archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-                    }
-                  }
+                always {
+                    archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                }
+            }
         }
 
         stage('Build Docker Image') {
@@ -46,10 +33,13 @@ pipeline {
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Push Docker Image') {
+            environment {
+                DOCKER_CONFIG = 'C:\\Users\\fahad_khan\\.docker'
+            }
             steps {
                 script {
-                    docker.withRegistry('', 'dockerhub-creds') {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
                         docker.image("${DOCKER_HUB}/${IMAGE_NAME}:latest").push()
                     }
                 }
@@ -58,21 +48,19 @@ pipeline {
 
         stage('Deploy') {
             steps {
-            bat 'docker-compose down || echo ok'
-            bat 'docker-compose build'
-            bat 'docker-compose up -d'
-
-//                 sh 'docker-compose down || true'
-//                 sh 'docker-compose up -d --build'
+                bat 'docker-compose down || echo ok'
+                bat 'docker-compose build'
+                bat 'docker-compose up -d'
             }
         }
     }
-     post {
+
+    post {
         success {
-          echo "Deployment finished: ${DOCKER_HUB}/${IMAGE_NAME}:latest"
+            echo "✅ Deployment finished successfully: ${DOCKER_HUB}/${IMAGE_NAME}:latest"
         }
         failure {
-          echo "Pipeline failed!"
+            echo "❌ Pipeline failed!"
         }
-      }
+    }
 }
