@@ -49,10 +49,10 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat '''
-                    echo " Stopping and cleaning up old containers..."
-                    docker-compose down -v --remove-orphans || echo "no old containers"
+                    echo "Checking for existing MySQL container..."
+                    docker rm -f mysql_db || echo "mysql_db not found"
 
-                    echo " Rebuilding and starting containers..."
+                    echo "Starting application..."
                     docker-compose up -d --build
                 '''
             }
