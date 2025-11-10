@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build JAR') {
             steps {
-                sh './mvnw clean package -DskipTests'
+                bat '.\\mvnw clean package -DskipTests'                    //'./mvnw clean package -DskipTests'
             }
             post {
                     always {
@@ -44,8 +44,12 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose up -d --build'
+            bat 'docker-compose down || echo ok'
+            bat 'docker-compose build'
+            bat 'docker-compose up -d'
+
+//                 sh 'docker-compose down || true'
+//                 sh 'docker-compose up -d --build'
             }
         }
     }
