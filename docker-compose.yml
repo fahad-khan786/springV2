@@ -20,9 +20,9 @@ services:
     depends_on:
       - db
     ports:
-      - "9988:9988"
+      - "9992:9988"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/University
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/University
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Idea@2025
     networks:
