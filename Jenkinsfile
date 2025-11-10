@@ -17,6 +17,11 @@ pipeline {
             steps {
                 sh './mvnw clean package -DskipTests'
             }
+            post {
+                    always {
+                      archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                    }
+                  }
         }
 
         stage('Build Docker Image') {
@@ -44,4 +49,12 @@ pipeline {
             }
         }
     }
+     post {
+        success {
+          echo "Deployment finished: ${DOCKER_HUB}/${IMAGE_NAME}:latest"
+        }
+        failure {
+          echo "Pipeline failed!"
+        }
+      }
 }
