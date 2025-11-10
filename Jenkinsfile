@@ -48,19 +48,23 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                bat 'docker-compose down || echo ok'
-                bat 'docker-compose build'
-                bat 'docker-compose up -d'
+                bat '''
+                    echo " Stopping and cleaning up old containers..."
+                    docker-compose down -v --remove-orphans || echo "no old containers"
+
+                    echo " Rebuilding and starting containers..."
+                    docker-compose up -d --build
+                '''
             }
         }
     }
 
     post {
         success {
-            echo "✅ Deployment finished successfully: ${DOCKER_HUB}/${IMAGE_NAME}:latest"
+            echo "Deployment finished successfully: ${DOCKER_HUB}/${IMAGE_NAME}:latest"
         }
         failure {
-            echo "❌ Pipeline failed!"
+            echo "Pipeline failed!"
         }
     }
 }
