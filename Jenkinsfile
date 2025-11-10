@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_HUB = "fahaddock"
         IMAGE_NAME = "myapp"
+        DOCKER_CONFIG = "C:\\Users\\fahad_khan\\.docker"
     }
 
     stages {
@@ -12,6 +13,18 @@ pipeline {
                 git branch: 'spring-feature', url: 'https://github.com/fahad-khan786/springV2.git'
             }
         }
+
+        stage('Push to Docker Hub') {
+            environment {
+                DOCKER_CONFIG = 'C:\\Users\\fahad_khan\\.docker'
+            }
+            steps {
+                script {
+                    withDockerRegistry([ credentialsId: 'dockerhub-creds', url: 'https://index.docker.io/v1/' ]) {
+                        bat 'docker push fahaddock/myapp:latest'
+                    }
+                }
+            }
 
         stage('Build JAR') {
             steps {
