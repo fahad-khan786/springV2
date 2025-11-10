@@ -46,7 +46,7 @@ public class UserController {
 
     @GetMapping(value = "/hello")
     public String getValue(){
-        return "Hi Faddoo";
+        return "Hi, i am from india";
     }
 
 }
