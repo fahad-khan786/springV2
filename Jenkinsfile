@@ -49,10 +49,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 bat '''
-                    echo "Checking for existing MySQL container..."
-                    docker rm -f mysql_db || echo "mysql_db not found"
-
-                    echo "Starting application..."
+                    echo "🔁 Full clean rebuild of Docker environment..."
+                    docker-compose down -v --remove-orphans
+                    docker system prune -af --volumes
                     docker-compose up -d --build
                 '''
             }
