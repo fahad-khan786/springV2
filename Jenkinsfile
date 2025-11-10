@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/fahad-khan786/springV2.git'
+                git branch: 'spring-feature', url: 'https://github.com/fahad-khan786/springV2.git'
             }
         }
 
