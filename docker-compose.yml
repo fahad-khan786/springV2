@@ -9,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: Idea@2025
       MYSQL_DATABASE: University
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - springnet
 
