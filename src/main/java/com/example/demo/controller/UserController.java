@@ -72,12 +72,12 @@ public class UserController {
 
     @GetMapping(value = "/user/hello")
     public String getValue(){
-        return "Hi, i am fahad from user";
+        return "Hi, i am fahad from userV2";
     }
 
     @GetMapping(value = "/admin/hello")
     public String getValueAdmin(){
-        return "Hi, i am fahad from admin";
+        return "Hi, i am fahad from adminV2";
     }
 
     @PostMapping(value = "/review",consumes = "application/json", produces = "application/json")
