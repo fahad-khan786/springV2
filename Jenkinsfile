@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB = "fahaddock"
-        IMAGE_NAME = "myapp"
+        IMAGE_NAME = "fahaddock/myapp"
         DOCKER_CONFIG = "C:\\Users\\fahad_khan\\.docker"
     }
 
