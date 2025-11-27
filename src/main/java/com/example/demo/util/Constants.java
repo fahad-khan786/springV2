@@ -38,4 +38,5 @@ public interface Constants {
         String fixedDeposite = "fixedDeposite";
         String carLaon = "carLaon";
     }
+
 }

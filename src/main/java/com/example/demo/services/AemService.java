@@ -62,4 +62,49 @@ public class AemService {
         object.add(Constants.SearchBar.popularProducts,popularProducts);
         return object.toString();
     }
+
+    public String getAemFetchRatingService() {
+        JsonObject rating = new JsonObject();
+        JsonArray listOfBreadkingDown = new JsonArray();
+
+        JsonObject ratingBreakdownFirst = new JsonObject();
+        ratingBreakdownFirst.addProperty("stars",5);
+        ratingBreakdownFirst.addProperty("percentage",80);
+
+        listOfBreadkingDown.add(ratingBreakdownFirst);
+
+        JsonObject ratingBreakdownSecond = new JsonObject();
+        ratingBreakdownSecond.addProperty("stars",4);
+        ratingBreakdownSecond.addProperty("percentage",18);
+
+        listOfBreadkingDown.add(ratingBreakdownSecond);
+
+        JsonObject ratingBreakdownThird = new JsonObject();
+        ratingBreakdownThird.addProperty("stars",3);
+        ratingBreakdownThird.addProperty("percentage",9);
+
+        listOfBreadkingDown.add(ratingBreakdownThird);
+
+        JsonObject ratingBreakdownFourth = new JsonObject();
+        ratingBreakdownFourth.addProperty("stars",2);
+        ratingBreakdownFourth.addProperty("percentage",5);
+
+        listOfBreadkingDown.add(ratingBreakdownFourth);
+
+        JsonObject ratingBreakdownFifth = new JsonObject();
+        ratingBreakdownFifth.addProperty("stars",1);
+        ratingBreakdownFifth.addProperty("percentage",11);
+
+        listOfBreadkingDown.add(ratingBreakdownFifth);
+
+//        ratingBreakdown.addProperty("5",80);
+//        ratingBreakdown.addProperty("4",18);
+//        ratingBreakdown.addProperty("3",9);
+//        ratingBreakdown.addProperty("2",5);
+//        ratingBreakdown.addProperty("1",11);
+        rating.addProperty("averageRating",4.5);
+        rating.addProperty("totalReviews",2256896);
+        rating.add("ratingsBreakdown",listOfBreadkingDown);
+        return rating.toString();
+    }
 }

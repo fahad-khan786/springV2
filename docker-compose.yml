@@ -1,30 +1,22 @@
 version: '3.8'
 
 services:
-  db:
-    image: mysql:8
-    container_name: mysql_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: Idea@2025
-      MYSQL_DATABASE: University
-    ports:
-      - "3307:3306"
-    networks:
-      - springnet
-
   app:
     image: fahaddock/myapp:latest
     container_name: springboot_myapp
     restart: always
-    depends_on:
-      - db
     ports:
       - "9992:9988"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_db:3306/University
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: Idea@2025
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_H2_CONSOLE_ENABLED: "true"
+      SPRING_H2_CONSOLE_PATH: /h2-console
+      SPRING_H2_CONSOLE_SETTINGS_WEB_ALLOW_OTHERS: "true"
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
     networks:
       - springnet
 
