@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/api")
@@ -105,4 +106,10 @@ public class UserController {
 
         return "Data created successfully";
     }
+
+    @PostMapping("/st/process")
+    public CompletableFuture<String> processAsync(@RequestBody StudentModel model) {
+        return service.processStudentAsync(model);
+    }
+
 }

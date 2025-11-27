@@ -1,9 +1,15 @@
 package com.example.demo.services;
 
+import com.example.demo.model.StudentModel;
 import com.example.demo.util.Constants;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class AemService {
@@ -107,4 +113,7 @@ public class AemService {
         rating.add("ratingsBreakdown",listOfBreadkingDown);
         return rating.toString();
     }
+
+
+
 }

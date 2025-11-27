@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -53,8 +56,6 @@ public class StudentService {
         return toDto(s);
     }
 
-
-
     public StudentModel update(Long id, StudentModel dto) {
         Student s = repo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found with id: " + id));
         if (!s.getEmail().equals(dto.getEmail()) && repo.existsByEmail(dto.getEmail())) {
@@ -73,5 +74,28 @@ public class StudentService {
 
     public Page<StudentModel> search(String query, Pageable pageable) {
         return repo.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query, pageable).map(this::toDto);
+    }
+
+    @Async
+    public CompletableFuture<String> processStudentAsync(StudentModel student) {
+
+        try {
+//            Thread.sleep(2000);// 2 sec
+            List<String> listOfNames =  repo.findAll()
+                    .stream()
+                    .map(s->s.getName())
+                    .collect(Collectors.toList());
+
+            listOfNames.forEach(System.out::println);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        boolean isNameValid = student.getName().matches("[A-Za-z ]+");
+        boolean isEmailValid = student.getEmail().endsWith(".in");
+
+        String result = "Name Valid: " + isNameValid + " | Email Valid: " + isEmailValid;
+
+        return CompletableFuture.completedFuture(result);
     }
 }
